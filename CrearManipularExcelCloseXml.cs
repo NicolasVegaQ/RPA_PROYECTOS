@@ -98,3 +98,21 @@ if(tablaDatos.Rows.Count == 0){
 }else{
 	tablaItemsAsistidos = tablaDatos.Copy();
 }
+
+//ESCRIBIR EN UN EXCEL MAS RAPIDO
+using (var libro = new ClosedXML.Excel.XLWorkbook(rutaArchivoLocal))
+{
+    var hoja = libro.Worksheet(hojaLocal);
+
+    // Cabeceras
+    hoja.Cell(1, 1).InsertData(
+        new[] { tablaLocal.Columns.Cast<DataColumn>().Select(c => c.ColumnName) }
+    );
+
+    // Datos
+    hoja.Cell(2, 1).InsertData(tablaLocal.AsEnumerable());
+
+    // Guardar
+    libro.SaveAs(rutaArchivoLocal);
+}
+
