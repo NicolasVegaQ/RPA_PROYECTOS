@@ -9,7 +9,7 @@ int ultimaFila = ((Microsoft.Office.Interop.Excel.Range)hoja.Cells[hoja.Rows.Cou
     .End[Microsoft.Office.Interop.Excel.XlDirection.xlUp].Row;
 
 // Crear rango de lectura desde A1 hasta, por ejemplo, columna BG (ajustar si hay más columnas)
-string rangoTexto = "A1:BG" + ultimaFila.ToString();
+string rangoTexto = "A1:" + LocalUltimaColumna + ultimaFila.ToString();
 var rangoEspecifico = hoja.Range[rangoTexto];
 
 // Convertir rango a arreglo 2D
