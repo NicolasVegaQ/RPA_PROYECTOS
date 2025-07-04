@@ -64,3 +64,78 @@ try {
     boolerrorEnvio = true;
     porqueErrorCaptcha = "ERROR_POST";
 }
+
+//GET PARA PEDIR SOLUCION DE RECAPTCHA V2, SE DEBE ENIVAR EL ID OBTENIDO EN LA PETICION POST
+//LISTA DE ERRORES API QUE NO VALE QUE SE SIGA INTENTANDO
+listaExepcionesNegocioApiGet = new List<string>{
+	"ERROR_WRONG_USER_KEY",
+	"ERROR_KEY_DOES_NOT_EXIST",
+	"ERROR_PAGEURL",
+	"ERROR_BAD_TOKEN_OR_PAGEURL",
+	"ERROR_GOOGLEKEY",
+	"ERROR_WRONG_GOOGLEKEY",
+	"ERROR_BAD_PARAMETERS",
+	"ERROR_CAPTCHA_UNSOLVABLE"
+};
+
+//LISTA DE ERRORES API POR CONEXION QUE SE PUEDE SEGUIR INTENTANDO
+listaExepcioneSistemaApiGet = new List<string>{
+	"ERROR_GET",
+	"CAPCHA_NOT_READY",
+	"ERROR_INTERNAL_SERVER_ERROR"
+};
+
+//LISTA DE ERRORES API POR QUE EL ID EN LA PETICION GET ES INCORRECTO TOCA REPETIR ALL EL PROCESO
+listaExepcionePorIdPeticionGet = new List<string>{
+	"ERROR_WRONG_ID_FORMAT",
+	"ERROR_WRONG_CAPTCHA_ID"
+};
+
+
+porqueErrorCaptcha = "";
+boolErrorConsulta = false;
+
+System.Net.Http.HttpClient client = null;
+
+try {
+    // Construcción segura de la URL usando UriBuilder y clase completa de HttpUtility
+    var uriBuilder = new System.UriBuilder(urlApiGetAnticaptcha);
+    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+
+    query["key"] = apiKey;
+    query["action"] = "get";
+    query["id"] = captchaId;
+    query["json"] = "1";
+
+    uriBuilder.Query = query.ToString();
+    string urlConsulta = uriBuilder.ToString();
+
+    // Cliente HTTP
+    client = new System.Net.Http.HttpClient();
+    System.Net.Http.HttpResponseMessage response = client.GetAsync(urlConsulta).Result;
+    string responseContent = response.Content.ReadAsStringAsync().Result;
+
+    // Procesar respuesta JSON
+    Newtonsoft.Json.Linq.JObject jsonResponse = Newtonsoft.Json.Linq.JObject.Parse(responseContent);
+    if ((int)jsonResponse["status"] == 1)
+    {
+        localTokenSolucion = jsonResponse["request"].ToString();
+    }
+    else
+    {
+        boolErrorConsulta = true;
+        porqueErrorCaptcha = porqueErrorCaptcha = jsonResponse["request"] == null ? "ERROR_GET" : jsonResponse["request"].ToString();
+    }
+}
+catch (System.Exception ex) {
+    boolErrorConsulta = true;
+    porqueErrorCaptcha = "ERROR_GET";
+}
+finally {
+    if (client != null)
+    {
+        client.Dispose();
+    }
+}
+
+
