@@ -1,6 +1,7 @@
 🧩 1. Configuraciones de sesión y pantalla
 🔒 Desactivar bloqueo automático de sesión:
-Ir a: Configuración del equipo > Plantillas administrativas > Sistema > Administración de energía > Configuración del botón de encendido y la tapa / Configuración de suspensión
+Ir a: Computer Configuration > Administrative Templates > System > Power Management > Button Settings / Sleep Settings
+
 
 ⏰ 2. Desactivar temporizador de inactividad en políticas de grupo
 Estas configuraciones las haces en el Editor de directivas de grupo local:
