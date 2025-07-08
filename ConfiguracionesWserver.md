@@ -1,18 +1,17 @@
 🧩 1. Configuraciones de sesión y pantalla
 🔒 Desactivar bloqueo automático de sesión:
-Ir a: Configuración > Cuentas > Opciones de inicio de sesión
+Ir a: Configuración del equipo > Plantillas administrativas > Sistema > Administración de energía > Configuración del botón de encendido y la tapa / Configuración de suspensión
 
-Desactiva: Requerir inicio de sesión tras inactividad
+⏰ 2. Desactivar temporizador de inactividad en políticas de grupo
+Estas configuraciones las haces en el Editor de directivas de grupo local:
 
-⏰ Desactivar temporizador de inactividad en políticas de grupo:
-Ejecuta gpedit.msc y navega a:
-Qué debes configurar para evitar interrupciones en el RPA:
-Te recomiendo modificar manualmente estas directivas. Aquí están las más importantes y cómo configurarlas:
+Ejecuta gpedit.msc desde el menú Inicio o Win + R.
+| **Directiva**                                                  | **Estado recomendado** | **Motivo**                                                                                                 |
+| -------------------------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Specify the system sleep timeout (plugged in)**              | Enabled, valor = 0     | Impide que el sistema entre en **modo suspensión** mientras está enchufado.                                |
+| **Specify the system hibernate timeout (plugged in)**          | Enabled, valor = 0     | Impide que el sistema entre en **hibernación** al estar enchufado.                                         |
+| **Turn off hybrid sleep (plugged in)**                         | Enabled                | Desactiva el **modo híbrido** (combinación de suspensión + hibernación) que puede causar errores visuales. |
+| **Allow applications to prevent automatic sleep (plugged in)** | Enabled                | Permite que tu aplicación RPA (como un bot con Selenium) **evite que el sistema duerma**.                  |
+| **Require a password when a computer wakes (plugged in)**      | Disabled               | Al volver del modo suspensión, no pedirá contraseña, evitando bloqueos que detienen el RPA.                |
+| **Specify the unattended sleep timeout (plugged in)**          | Enabled, valor = 0     | Previene suspensión del sistema cuando está **sin usuario activo**, ideal para bots.                       |
 
-Opción	Estado recomendado	Motivo
-Specify the system sleep timeout (plugged in)	Enabled, valor = 0	Evita que el sistema entre en suspensión
-Specify the system hibernate timeout (plugged in)	Enabled, valor = 0	Previene hibernación cuando está conectado
-Turn off hybrid sleep (plugged in)	Enabled	El modo híbrido puede generar pantallas negras
-Allow applications to prevent automatic sleep (plugged in)	Enabled	Permite que el RPA impida suspensión automática
-Require a password when a computer wakes (plugged in)	Disabled	Evita que el sistema se bloquee tras suspenderse
-Specify the unattended sleep timeout (plugged in)	Enabled, valor = 0	Previene suspensión cuando está desatendido
