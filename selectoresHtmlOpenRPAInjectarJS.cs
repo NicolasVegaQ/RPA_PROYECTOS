@@ -23,6 +23,7 @@ if (elemento) {
 estaBtnSalirPanelPrincipal;
 ";
 
+//CODIGO QUE VERIFICA SI EXISTE ELEMENTO WEB DE INTERES
 stringSelectorExisteElementoWeb= String.Format(@"
     // Inicializar la variable 
     var existeElementoWeb = false
@@ -39,4 +40,24 @@ stringSelectorExisteElementoWeb= String.Format(@"
     // Devuelve el resultado
     existeElementoWeb;
 ", stringLocalXphat);
+
+//CODIGO QUE SELECCIONA ELEMENTO DE UN ELEMENTO TIPO SELECCION 
+codigoJsSeleccionarOpcion = String.Format(@"
+    var xpath = '{0}';
+    var valorDeseado = '{1}';
+    var valorFueSeleccionado = false;
+
+    // Buscar el elemento select por XPath
+    var selectElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+    if (selectElement) {{
+        selectElement.value = valorDeseado;
+
+        // Disparar el evento 'change' como si el usuario lo hubiera hecho
+        var event = new Event('change', {{ bubbles: true }});
+        selectElement.dispatchEvent(event);
+        valorFueSeleccionado = selectElement.value === valorDeseado;
+    }}
+", stringLocalXphat, stringLocalOpcion);
+
 
