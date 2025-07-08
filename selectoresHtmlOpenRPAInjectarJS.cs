@@ -120,3 +120,21 @@ if (elemento) {
 // Devuelve el resultado
 estaBtnSalirPanelPrincipal;
 ";
+
+stringSelectorExisteElementoWeb= String.Format(@"
+    // Inicializar la variable 
+    var existeElementoWeb = false
+    // Construir el XPath dinámico
+    var xpath = '{0}';
+    // Usar el evaluador de XPath para seleccionar el elemento
+    var elemento = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    // Verificar si el elemento existe
+    if (elemento) {{
+        existeElementoWeb = true;
+    }} else {{
+        existeElementoWeb = false;
+    }}
+    // Devuelve el resultado
+    existeElementoWeb;
+", stringLocalXphat);
+
