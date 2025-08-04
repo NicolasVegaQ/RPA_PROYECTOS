@@ -12,3 +12,11 @@ Send {Tab}
 SendInput %passWorldOffice%
 Send {Tab}
 Send {Enter}
+
+// Simular Clics derecho con autokokey
+CoordMode, Mouse, Screen
+Click, Right, 24, 345
+
+// Simular Clics Izquierdo con autokokey
+CoordMode, Mouse, Screen
+Click, 1200, 540
